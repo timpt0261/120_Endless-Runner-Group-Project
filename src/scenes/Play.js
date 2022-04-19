@@ -2,14 +2,21 @@ class Play extends Phaser.Scene{
     constructor(){
         super("playScene");
     }
+
+    
     // added assets here
     preload(){
         this.load.image('basketball', './assets/basketball.png');
+        this.load.image('background', './assets/background.jpg');
     }
+
     // initialize gameObjects , and add assets as textures
     create(){
-        
-        this.basketBall = new Ball(this, game.config.width/2, game.config.height/2, 'basketball',0);
+        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
+        this.basketball = new Ball(this, 100, 100,'basketball');
+
+        // initialize score:
+        this.plScore;
 
         // define keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -20,17 +27,8 @@ class Play extends Phaser.Scene{
     }
     // update things in scene
     update(){
+        this.basketball.update();
 
-    }
-    // implement in prefabs(maybe)
-    collisionCheck(player, object){
-
-
-
-    }
-
-    destroyObstacle(obstacle){
-        
     }
 
 }
