@@ -1,5 +1,5 @@
-// SkateBoard prefab
-class SkateBoard extends Phaser.GameObjects.Sprite{
+// Platforms prefab
+class Platform extends Phaser.GameObjects.Sprite{
     constructor(scene, x, y, texture,frame){
         super(scene,x,y,texture, frame);
 
