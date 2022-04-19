@@ -1,6 +1,7 @@
 class Play extends Phaser.Scene{
     constructor(){
         super("playScene");
+        this.physics = new Arcade
     }
 
     
