@@ -6,7 +6,7 @@ class Play extends Phaser.Scene{
     preload(){
 
     }
-    // initialize gameObjects , and add assets as textures
+    // initialize gameObjects , and add assets as textures :)
     create(){
         
         // define keys
