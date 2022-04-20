@@ -1,6 +1,7 @@
 class Play extends Phaser.Scene{
     constructor(){
         super("playScene");
+        
     }
 
     
@@ -12,9 +13,10 @@ class Play extends Phaser.Scene{
 
     // initialize gameObjects , and add assets as textures
     create(){
-        this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
-        this.basketball = new Ball(this, game.config.width /2, game.config.height - 30,'basketball');
 
+        this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
+        this.basketball = new Ball(this, game.config.width/2, game.config.height/4 ,'basketball');
+        game.physics.arcade.add(this.basketball);
         // initialize score:
         this.plScore;
 
@@ -27,7 +29,7 @@ class Play extends Phaser.Scene{
     }
     // update things in scene
     update(){
-        // this.basketball.update();
+        
 
     }
 

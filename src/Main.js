@@ -7,11 +7,10 @@ let config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug : true
+            debug : true,
+            gravity: {y: 20}
         }
     }
-
-
 }
 
 let game = new Phaser.Game(config);
