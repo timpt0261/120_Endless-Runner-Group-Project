@@ -10,20 +10,22 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
         this.hitSpeed = 1;
     }
 
-    // Added physis 
+    // Added physics 
     create(){       
-        // this.setOrgin(0,0); 
+
         this.body.setSize(32,32);
-        this.body.setCircle(17.5,31,30);
+        this.body.setCircle(16);
         this.setBounce(1);
         this.setAcceleration(10,500);
         this.setVelocity(200,100);
-        this.setGravityY(500);
+        this.setGravityY(0);
         this.setCollideWorldBounds(true);
+        this.refreshBody();
     }
 
     update(){
-        // this.angle++;
+        console.log('a');
+        this.angle++;
     }
 
     // reset rocket to "ground"

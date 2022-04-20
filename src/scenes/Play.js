@@ -15,8 +15,8 @@ class Play extends Phaser.Scene{
 
         // this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
         
-        this.basketball = new Ball(this, 100, 100,'basketball').create();
-    
+        this.basketball = new Ball(this, 100, 100,'basketball',0);
+        this.basketball.create();
 
 
         // initialize score:
@@ -31,7 +31,7 @@ class Play extends Phaser.Scene{
     }
     // update things in scene
     update(){
-        // this.basketball.update()
+        this.basketball.update();
 
     }
 
