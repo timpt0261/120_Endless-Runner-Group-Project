@@ -4,6 +4,13 @@ let config = {
     height: 780,
     scene: [Play],
     title: 'Endless Running in the 90s',
+    physics:{
+        default: 'arcade',
+        arcade: {
+            gravity: { y : 0 },
+            debug : true
+        }
+    }
 }
 
 let game = new Phaser.Game(config);
