@@ -24,7 +24,6 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
     }
 
     update(){
-        console.log('a');
         this.angle++;
     }
 
