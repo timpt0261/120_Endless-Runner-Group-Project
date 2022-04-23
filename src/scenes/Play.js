@@ -11,7 +11,7 @@ class Play extends Phaser.Scene{
         this.load.image('background', './assets/background.jpg');
     }
 
-
+    
     // initialize gameObjects , and add assets as textures
     create(){
         console.log("(BorderUISize, BorderPadding):\n", borderUISize, borderPadding);
