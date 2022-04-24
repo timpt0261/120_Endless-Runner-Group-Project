@@ -12,6 +12,8 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
         this.addPhysics();
     }
 
+        // set collider to fit image
+
     addPhysics(){
         this.body.setSize(32,32);
         this.body.setCircle(16);
