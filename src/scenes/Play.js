@@ -20,6 +20,7 @@ class Play extends Phaser.Scene{
         
         this.ball = new Ball(this, 100, 100,'basketball',0).setOrigin();  //Origin default is (0.5,0.5)
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'brick',0).setOrigin();
+        this.physics.world.enable([ this.ball, this.paddle]);
 
         // initialize score:
         this.plScore;
@@ -36,6 +37,7 @@ class Play extends Phaser.Scene{
     update(){
         this.ball.update();
         this.paddle.update();
+        this.physics.world.collide(this.ball, this.paddle);
 
     }
 
