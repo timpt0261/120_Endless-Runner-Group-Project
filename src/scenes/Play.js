@@ -57,7 +57,8 @@ class Play extends Phaser.Scene{
     // Reference from Phaser BreakOut Model
     hitPaddle(ball, paddle) {
         var diff = 0;
-        var power = Math.random(0, 50);
+        var power;
+        keySPACE.isDown? power =  Math.random(10, 50): power = 0;
 
         if (ball.x < paddle.x)
         {
