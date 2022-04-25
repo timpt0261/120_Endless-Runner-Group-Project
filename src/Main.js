@@ -4,6 +4,7 @@ let config = {
     height: 780,
     scene: [Play],
     title: 'Endless Running in the 90s',
+    
     physics:{
         default: 'arcade',
         arcade: {
