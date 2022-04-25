@@ -32,6 +32,7 @@ class Play extends Phaser.Scene{
         keyDOWN= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
 
@@ -45,11 +46,37 @@ class Play extends Phaser.Scene{
         if(this.ball.y > game.config.height){
             this.ball.reset();
             this.paddle.reset();
+            this.hitPaddle(this.ball,this.paddle);
+            // this.obstacle.reset();
 
         }
 
         // check that obstacle and paddle are touching
 
+    }
+    // Reference from Phaser BreakOut Model
+    hitPaddle(ball, paddle) {
+        var diff = 0;
+        var power = Math.random(0, 50);
+
+        if (ball.x < paddle.x)
+        {
+            //  Ball is on the left-hand side of the paddle
+            diff = paddle.x - ball.x;
+            ball.setVelocityX(-10 * diff + power);
+        }
+        else if (ball.x > paddle.x)
+        {
+            //  Ball is on the right-hand side of the paddle
+            diff = ball.x -paddle.x;
+            ball.setVelocityX(10 * diff + power);
+        }
+        else
+        {
+            //  Ball is perfectly in the middle
+            //  Add a little random X to stop it bouncing straight up!
+            ball.setVelocityX(2 + Math.random() * 8 + power);
+        }
     }
 
 }
