@@ -12,7 +12,6 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite{
     addPhysics(ob_type){
         this.setBounce(1);
         //this.setAcceleration(10);
-        this.setVelocity(0,100);
         this.setGravity(0); //isn't actually being affected by gravity
 
         this.setCollideWorldBounds(true); //is there a function so I can delete it when it collides with world bounds?
@@ -35,6 +34,7 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite{
         }*/
     }
     deleteSelf(){
+        console.log("deleteSelf is called");
         this.disableBody(true, true);
         //this.enable(false);
         //this.destroy();

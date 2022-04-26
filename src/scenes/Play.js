@@ -36,7 +36,7 @@ class Play extends Phaser.Scene{
         
         //define obstacle collision behavior (with paddle --> should delete it)
         //define obstacle collision behavior (with ball--> should be deleted)
-        this.physics.add.collider(this.ball, this.obstacleColGroup, Obstacles.deleteSelf, null, this); //for some reason, this line just adds collision to the obstacle-- doesn't delete it?? Obstacles.deleteSelf isn't being called, I think.
+        this.physics.add.collider(this.ball, this.obstacleColGroup, this.obstacle.deleteSelf, null, this.obstacle); //for some reason, this line just adds collision to the obstacle-- doesn't delete it?? Obstacles.deleteSelf isn't being called, I think.
 
 
         // define keys
