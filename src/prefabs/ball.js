@@ -18,10 +18,11 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
         this.body.setSize(32,32);
         this.body.setCircle(16);
 
+
         // Added physics 
         this.setBounce(1,1);
-        this.setVelocity(300,300);
-        this.setGravity(100);
+        this.setVelocity(30,0);
+        this.setGravityY(20);
         this.setCollideWorldBounds(true);
         this.refreshBody();
     }
@@ -29,5 +30,14 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
 
     update(){
         this.angle++;
+
     }
+
+    reset(){
+        this.x  = game.config.width / 2;
+        this.y =  game.config.height /2;
+
+    }
+
+    
 }

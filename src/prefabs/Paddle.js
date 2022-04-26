@@ -14,7 +14,8 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
     addPhysics(){
         this.currVelX = this.body.velocity.x;
         this.currAccelX = this.body.acceleration.x;
-
+        this.body.allowRotation(true);
+        this.setImmovable();
         this.setMaxVelocity(500);
         this.setGravity(0);
         this.setCollideWorldBounds(true);
@@ -29,7 +30,7 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
 
 
         // left movement
-        if(keyLEFT.isDown && this.x  >= this.width){
+        if(keyLEFT.isDown){
             if(this.currVelX > 0){
                 this.setAccelerationX(-this.paddleSpeed *3);
             }
@@ -37,13 +38,24 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
                 this.setAccelerationX(-this.paddleSpeed);
             }
         } // right movement
-        else if(keyRIGHT.isDown && this.x <= game.config.width - this.width){
+        else if(keyRIGHT.isDown){
             if(this.currVelX < 0){
                 this.setAccelerationX(this.paddleSpeed*3);
             }
             else{
                 this.setAccelerationX(this.paddleSpeed);
             }
+        }
+        else if (keyUP.isDown)
+        {
+            this.angle = 45;
+            this.body.setAngle(-45);
+            
+        }
+        else if(keyDOWN.isDown){
+            this.angle = -45;
+            this.body.setAngle(-45);
+            
         }
         else{  // Stopping movement
             if(this.currVelX < 5 && this.currVelX > -5){
@@ -54,5 +66,13 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
                 this.setAccelerationX(-this.currVelX *5);
             } 
         }
+
+        this.angle = 0;
+        this.body.setAngle(0);
+    }
+
+    reset(){
+        this.x =  game.config.width / 2;
+        this.y = game.config.height - borderUISize;
     }
 }
