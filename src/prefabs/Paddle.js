@@ -14,6 +14,7 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
     addPhysics(){
         this.currVelX = this.body.velocity.x;
         this.currAccelX = this.body.acceleration.x;
+        this.body.allowRotation(true);
         this.setImmovable();
         this.setMaxVelocity(500);
         this.setGravity(0);
@@ -47,13 +48,13 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
         }
         else if (keyUP.isDown)
         {
-            // this.angle += .1;
-            this.body.angle += 1;
+            this.angle = 45;
+            this.body.setAngle(-45);
             
         }
         else if(keyDOWN.isDown){
-            
-            this.body.angle -= 1;
+            this.angle = -45;
+            this.body.setAngle(-45);
             
         }
         else{  // Stopping movement
@@ -65,6 +66,9 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
                 this.setAccelerationX(-this.currVelX *5);
             } 
         }
+
+        this.angle = 0;
+        this.body.setAngle(0);
     }
 
     reset(){
