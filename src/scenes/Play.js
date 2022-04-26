@@ -32,12 +32,18 @@ class Play extends Phaser.Scene{
         //initialize collision group for obstacles
         this.obstacleColGroup = this.physics.add.group();
 
+        //[SPAWNER CODE]
+        //randomize between 4 sprites
+        //randomize x position of spawn
+        //randomize x and y scaling of obj
+
         //[TEST PURPOSES ONLY]
         this.obstacle = new Obstacles(this, 30, 30, 'obstacle1-1',0,1).setOrigin();
         this.obstacle.setScale(2,1);
         this.obstacleColGroup.add(this.obstacle); //add test obstacle to collision group
         
         //define obstacle collision behavior (with paddle --> should delete it)
+        this.physics.add.collider(this.paddle, this.obstacleColGroup, this.paddle.deleteSelf, null, this.paddle);
         //define obstacle collision behavior (with ball--> should be deleted)
         this.physics.add.collider(this.ball, this.obstacleColGroup, this.obstacle.deleteSelf, null, this.obstacle); //for some reason, this line just adds collision to the obstacle-- doesn't delete it?? Obstacles.deleteSelf isn't being called, I think.
 

@@ -36,9 +36,6 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite{
     deleteSelf(){
         console.log("deleteSelf is called");
         this.disableBody(true, true);
-        //this.enable(false);
-        //this.destroy();
-
     }
     update(){
         this.setVelocity(0,110); //constantly moves it down
