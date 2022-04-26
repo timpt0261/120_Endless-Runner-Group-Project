@@ -9,6 +9,8 @@ class Play extends Phaser.Scene{
         this.load.image('basketball', './assets/basketball.png');
         this.load.image('brick', './assets/brick.png');
         this.load.image('background', './assets/background.jpg');
+
+        this.load.image('obstacle1-1', './assets/obstacle1-1.png');
     }
 
     
@@ -27,6 +29,19 @@ class Play extends Phaser.Scene{
         // initialize score:
         this.plScore;
 
+        //initialize collision group for obstacles
+        this.obstacleColGroup = this.physics.add.group();
+
+        //[TEST PURPOSES ONLY]
+        this.obstacle = new Obstacles(this, 30, 30, 'obstacle1-1',0,1).setOrigin();
+        this.obstacle.setScale(2,1);
+        this.obstacleColGroup.add(this.obstacle); //add test obstacle to collision group
+        
+        //define obstacle collision behavior (with paddle --> should delete it)
+        //define obstacle collision behavior (with ball--> should be deleted)
+        this.physics.add.collider(this.ball, this.obstacleColGroup, this.obstacle.deleteSelf, null, this.obstacle); //for some reason, this line just adds collision to the obstacle-- doesn't delete it?? Obstacles.deleteSelf isn't being called, I think.
+
+
         // define keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
@@ -40,8 +55,8 @@ class Play extends Phaser.Scene{
     update(){
         this.ball.update();
         this.paddle.update();
+        this.obstacle.update();
         this.physics.world.collide(this.ball, this.paddle);
-
         //check that ball is past floor
         if(this.ball.y > game.config.height){
             this.ball.reset();
