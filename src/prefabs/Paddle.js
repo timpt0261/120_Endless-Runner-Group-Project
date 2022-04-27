@@ -24,8 +24,8 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
     update(){
         this.currVelX = this.body.velocity.x; //updates the current velocity
         this.currAccelX = this.body.acceleration.x; // updates the current acceleration
-        console.log("Paddle Velocity    : ", this.currVelX); //returns the velocity of the paddle
-        console.log("Paddle Acceleration: ", this.currAccelX); //returns the acceleration of the paddle
+        //console.log("Paddle Velocity    : ", this.currVelX); //returns the velocity of the paddle
+        //console.log("Paddle Acceleration: ", this.currAccelX); //returns the acceleration of the paddle
 
 
         // left movement
