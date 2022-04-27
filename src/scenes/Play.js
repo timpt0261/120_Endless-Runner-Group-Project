@@ -22,6 +22,7 @@ class Play extends Phaser.Scene{
 
         // this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
         
+
         this.ball = new Ball(this,  game.config.width / 2 ,  game.config.height /2,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'brick',0).setOrigin(0,0);
         this.physics.world.enable([ this.ball, this.paddle]);
@@ -62,14 +63,11 @@ class Play extends Phaser.Scene{
         this.ball.update();
         this.paddle.update();
         this.obstacle.update();
-        this.physics.world.collide(this.ball, this.paddle);
+
         //check that ball is past floor
         if(this.ball.y > game.config.height){
             this.ball.reset();
             this.paddle.reset();
-            this.hitPaddle(this.ball,this.paddle);
-            // this.obstacle.reset();
-
         }
 
         // check that obstacle and paddle are touching
