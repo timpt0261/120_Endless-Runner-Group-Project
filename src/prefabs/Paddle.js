@@ -14,7 +14,6 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
     addPhysics(){
         this.currVelX = this.body.velocity.x;
         this.currAccelX = this.body.acceleration.x;
-
         this.setImmovable();
         this.setMaxVelocity(500);
         this.setGravity(0);
@@ -27,7 +26,6 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
         this.currAccelX = this.body.acceleration.x; // updates the current acceleration
         //console.log("Paddle Velocity    : ", this.currVelX); //returns the velocity of the paddle
         //console.log("Paddle Acceleration: ", this.currAccelX); //returns the acceleration of the paddle
-
 
         // left movement
         if(keyLEFT.isDown){
@@ -67,6 +65,10 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
                 this.setAccelerationX(-this.currVelX *5);
             } 
         }
+
+        this.angle = 0; 
+
+    }
 
 
     reset(){
