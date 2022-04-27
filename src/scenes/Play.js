@@ -1,6 +1,8 @@
 class Play extends Phaser.Scene{
     constructor(){
         super("playScene");
+        this.counter = 0;
+        this.text = 0;
     }
 
     
@@ -22,8 +24,8 @@ class Play extends Phaser.Scene{
 
         // this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
         
-        this.ball = new Ball(this,  game.config.width / 2 ,  game.config.height /2,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
-        this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'brick',0).setOrigin(0,0);
+        this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'brick',0).setOrigin(0.5,0.5);
+        this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.physics.world.enable([ this.ball, this.paddle]);
 
         // initialize score:
@@ -46,6 +48,9 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.paddle, this.obstacleColGroup, this.paddle.deleteSelf, null, this.paddle);
         //define obstacle collision behavior (with ball--> should be deleted)
         this.physics.add.collider(this.ball, this.obstacleColGroup, this.obstacle.deleteSelf, null, this.obstacle); //for some reason, this line just adds collision to the obstacle-- doesn't delete it?? Obstacles.deleteSelf isn't being called, I think.
+        this.physics.add.overlap(ball, obstacle, function () {
+            ball.velocityX *= 2;
+        });
 
 
         // define keys
@@ -65,7 +70,7 @@ class Play extends Phaser.Scene{
         this.physics.world.collide(this.ball, this.paddle);
         //check that ball is past floor
         if(this.ball.y > game.config.height){
-            this.ball.reset();
+            this.ball.reset(this.paddle);
             this.paddle.reset();
             this.hitPaddle(this.ball,this.paddle);
             // this.obstacle.reset();
@@ -75,6 +80,8 @@ class Play extends Phaser.Scene{
         // check that obstacle and paddle are touching
 
     }
+    
+
     // Reference from Phaser BreakOut Model
     hitPaddle(ball, paddle) {
         var diff = 0;
