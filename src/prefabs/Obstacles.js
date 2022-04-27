@@ -35,13 +35,16 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite{
     }
     update(){
         if(this.y > game.config.height + 15){
-            this.destroy();
+            this.deleteSelf();
         }
         //If it exists, continue. This is to solve a problem with this.destroy()
         if(this.body){
             //All obstacle update code is to be written down here, else destroy() error
             this.setVelocity(0,110); //constantly moves it down
-            
+
         }
     }    
+    deleteSelf(){
+        this.destroy();
+    }
 }

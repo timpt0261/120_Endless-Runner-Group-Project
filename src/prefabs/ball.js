@@ -25,7 +25,7 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
         // Added physics 
         this.setBounce(1,1);
         this.setMaxVelocity(this.maxSpeed);
-        this.setVelocity(10,-200);
+        this.setVelocity(10,200);
         this.setGravity(0);
         this.setCollideWorldBounds(true);
         this.refreshBody();
