@@ -23,9 +23,9 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
         this.body.setCircle(16);
 
         // Added physics 
-        this.setBounce(1,1);
-        this.setVelocity(-100,0);
-        this.setGravityY(20);
+        this.setBounce(1);
+        this.setMaxVelocity(500);
+        this.setVelocity(-10,-200);
         this.setCollideWorldBounds(true);
         this.refreshBody();
     }
@@ -34,9 +34,7 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
 
     update(){
         this.currVelX = this.body.velocity.x; //updates the current velocity
-        this.currAcceX = this.body.acceleration.x;
         console.log("Ball Velocity    : ", this.currVelX); //returns the velocity of the paddle
-        console.log("Ball Acceleration   : ", this.currAcceX);
         //console.log("Ball Velocity    : ", this.currVelX); //returns the velocity of the paddle
 
 
@@ -44,7 +42,6 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
     }
 
     reset(paddle){
-        this.setVelocity(0);
         this.x  = paddle.x;
         this.y =  650;
     }
