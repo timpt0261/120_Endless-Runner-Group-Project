@@ -29,6 +29,7 @@ class Play extends Phaser.Scene{
 
         // initialize score:
         this.plScore;
+        this.count = 0;
 
         //initialize collision group for obstacles
         this.obstacleColGroup = this.physics.add.group();
@@ -57,16 +58,16 @@ class Play extends Phaser.Scene{
         this.ball.update();
         this.paddle.update();
         this.obstacle.update();
+        this.count += 1;
 
         //check that ball is past floor
         if(this.ball.y > game.config.height){
             this.ball.reset();
             this.paddle.reset();
         }
-
-        // check that obstacle and paddle are touching
-
     }
+
+
     // Reference from Phaser BreakOut Model
     hitPaddle(ball, paddle) {
         var diff = 0;
