@@ -3,7 +3,6 @@ class Play extends Phaser.Scene{
         super("playScene");
         this.counter = 0;
         this.text = 0;
-        this.hitPoints = 0;
     }
 
     
@@ -25,11 +24,9 @@ class Play extends Phaser.Scene{
 
         // this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
         
-
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'brick',0).setOrigin(0.5,0.5);
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.physics.world.enable([ this.ball, this.paddle]);
-        this.physics.add.collider(this.ball,this.paddle,this.hitPaddle,null,this.paddle);
 
         // initialize score:
         this.plScore;
@@ -51,6 +48,10 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.paddle, this.obstacleColGroup, this.paddle.deleteSelf, null, this.paddle);
         //define obstacle collision behavior (with ball--> should be deleted)
         this.physics.add.collider(this.ball, this.obstacleColGroup, this.obstacle.deleteSelf, null, this.obstacle); //for some reason, this line just adds collision to the obstacle-- doesn't delete it?? Obstacles.deleteSelf isn't being called, I think.
+        this.physics.add.overlap(ball, obstacle, function () {
+            ball.velocityX *= 2;
+        });
+
 
         // define keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -66,61 +67,45 @@ class Play extends Phaser.Scene{
         this.ball.update();
         this.paddle.update();
         this.obstacle.update();
-
+        this.physics.world.collide(this.ball, this.paddle);
         //check that ball is past floor
         if(this.ball.y > game.config.height){
             this.ball.reset(this.paddle);
             this.paddle.reset();
+            this.hitPaddle(this.ball,this.paddle);
+            // this.obstacle.reset();
 
-            // wait for a few seconds and reset physics
         }
 
-
+        // check that obstacle and paddle are touching
 
     }
+    
 
     // Reference from Phaser BreakOut Model
     hitPaddle(ball, paddle) {
         var diff = 0;
         var power;
-        // keySPACE.isDown? power =  Math.random(10, 50): power = 0;
+        keySPACE.isDown? power =  Math.random(10, 50): power = 0;
 
-        if (ball.x < paddle.x){
-
-            // Ball is on the left-hand side of the paddle                  
-            if(keyUP.isDown()){
-                ball.setVelocityX(50);
-            }else{
-                diff = paddle.x - ball.x;
-                ball.setVelocityX(-10);
-            }
-         
-            
+        if (ball.x < paddle.x)
+        {
+            //  Ball is on the left-hand side of the paddle
+            diff = paddle.x - ball.x;
+            ball.setVelocityX(-10 * diff + power);
         }
-        else if (ball.x > paddle.x){
-
-             //  Ball is on the right-hand side of the paddle
-            if (keyDown.isDown()) {
-                ball.setVelocityX(-50);
-            } else {
-                diff = ball.x - paddle.x;
-                ball.setVelocityX(10);
-            }            
+        else if (ball.x > paddle.x)
+        {
+            //  Ball is on the right-hand side of the paddle
+            diff = ball.x -paddle.x;
+            ball.setVelocityX(10 * diff + power);
         }
         else
         {
             //  Ball is perfectly in the middle
-             //  Add a little random X to stop it bouncing straight up!
-            if (keySPACE.isDown()) {
-                ball.setVelocityX(10 * Math.random(1,2) + 2);
-            } else {
-                ball.setVelocityX(2 + Math.random() * 8);
-            }         
-            
-           
-            
+            //  Add a little random X to stop it bouncing straight up!
+            ball.setVelocityX(2 + Math.random() * 8 + power);
         }
-        this.hitPoints++;
     }
 
 }
