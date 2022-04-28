@@ -35,7 +35,7 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
     update(){
         this.currVelX = this.body.velocity.x; //updates the current velocity
         this.currVelY = this.body.velocity.y; //updates the current velocity
-        console.log("Ball X : ", this.currVelX,"\nBall Y : ", this.currVelY); //returns the velocity of the paddle
+        //console.log("Ball X : ", this.currVelX,"\nBall Y : ", this.currVelY); //returns the velocity of the paddle
 
         this.angle++;     
         this.setVelocityY(this.currVelY*2);

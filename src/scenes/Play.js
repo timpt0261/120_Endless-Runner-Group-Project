@@ -11,14 +11,29 @@ class Play extends Phaser.Scene{
         this.load.image('basketball', './assets/basketball.png');
         this.load.image('brick', './assets/brick.png');
         this.load.image('background', './assets/background.jpg');
-
         this.load.image('obstacle1-1', './assets/obstacle1-1.png');
+
+        this.load.audio('techno', './assets/TestTechno1.wav');
+        //this.load.audio('techno', './assets/tiger.mp3');
+
     }
 
     
     // initialize gameObjects , and add assets as textures
     create(){
-        console.log("(BorderUISize, BorderPadding):\n", borderUISize, borderPadding);
+        this.counter = 0;
+        this.techno = this.sound.add("techno");
+        this.musicConfig = {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+        }
+
+
         //Add collision to sides, but disable floor
         this.physics.world.setBoundsCollision(true, true, true, false);
 
@@ -28,8 +43,6 @@ class Play extends Phaser.Scene{
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
-        // initialize score:
-        this.plScore;
 
         //initialize collision group for obstacles
         this.obstacleColGroup = this.physics.add.group();
@@ -67,16 +80,42 @@ class Play extends Phaser.Scene{
 
 
         // define keys
-        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        keyDOWN= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        // keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        //  keyDOWN= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        //keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        // initialize score:
+        let scoreConfig = {
+            fontFamily: 'Comic Sans MS',
+            fontSize: '33px',
+            //backgroundColor: '#f6d265',
+            stroke: '#000000',
+            strokeThickness: '2',
+            color: '#132A8F',
+            align: 'center',
+            padding: {
+                top: 3,
+                bottom: 3,
+            },
+            fixedWidth: 0
+        }
+        this.points = 0;
+        this.score = this.add.text(game.config.width /2, borderUISize, 0, scoreConfig);
     }
 
 
     // update things in scene
-    update(){
+    update(time){
+        // This is literally just to get the music to play once.
+        this.counter += 1;
+        if (this.counter == 1){
+            this.techno.play(this.musicConfig);
+        }
+
+        this.points = Math.floor(time/1000);
+        this.score.text = this.points;
 
         this.ball.update();
         this.paddle.update();
@@ -97,8 +136,8 @@ class Play extends Phaser.Scene{
     // Reference from Phaser BreakOut Model
     hitPaddle(ball, paddle) {
         var diff = 0;
-        var power;
-        keySPACE.isDown? power =  Math.random(10, 50): power = 0;
+        var power = 0;
+        //keySPACE.isDown? power =  Math.random(10, 50): power = 0;
 
         if (ball.x < paddle.x)
         {
