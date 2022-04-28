@@ -26,7 +26,7 @@ class Play extends Phaser.Scene{
         
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'brick',0).setOrigin(0.5,0.5);
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
-        this.physics.world.enable([ this.ball, this.paddle]);
+        this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
         // initialize score:
         this.plScore;
@@ -59,11 +59,12 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.paddle, this.obstacleColGroup, this.paddle.deleteSelf, null, this.paddle);
         //define obstacle collision behavior (with ball--> should be deleted)
 
-        this.physics.add.collider(this.ball, this.obstacle1, this.obstacle1.deleteSelf, null, this.obstacle1);
-        this.physics.add.collider(this.ball, this.obstacle2, this.obstacle2.deleteSelf, null, this.obstacle2);
-        this.physics.add.collider(this.ball, this.obstacle3, this.obstacle3.deleteSelf, null, this.obstacle3);
-        this.physics.add.collider(this.ball, this.obstacle4, this.obstacle4.deleteSelf, null, this.obstacle4);
-        this.physics.add.collider(this.ball, this.obstacle5, this.obstacle5.deleteSelf, null, this.obstacle5);
+        this.physics.add.collider(this.ball, this.obstacle1, this.bounce, null, this);
+        this.physics.add.collider(this.ball, this.obstacle2, this.bounce, null, this);
+        this.physics.add.collider(this.ball, this.obstacle3, this.bounce, null, this);
+        this.physics.add.collider(this.ball, this.obstacle4, this.bounce, null, this);
+        this.physics.add.collider(this.ball, this.obstacle5, this.bounce, null, this);
+
 
         // define keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -85,13 +86,10 @@ class Play extends Phaser.Scene{
         this.obstacle4.update();
         this.obstacle5.update();
 
-        this.physics.world.collide(this.ball, this.paddle);
-
         //check that ball is past floor
         if(this.ball.y > game.config.height){
             this.ball.reset(this.paddle);
             this.paddle.reset();
-            this.hitPaddle(this.ball,this.paddle);
         }
         // check that obstacle and paddle are touching
     }
@@ -120,5 +118,13 @@ class Play extends Phaser.Scene{
             //  Add a little random X to stop it bouncing straight up!
             ball.setVelocityX(2 + Math.random() * 8 + power);
         }
+    }
+
+    bounce(ball, obstacle){
+        if(obstacle.y > ball.y){
+        ball.setVelocityY(-ball.maxSpeed);
+        }
+        
+        obstacle.reset();
     }
 }
