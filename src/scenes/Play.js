@@ -33,25 +33,37 @@ class Play extends Phaser.Scene{
 
         //initialize collision group for obstacles
         this.obstacleColGroup = this.physics.add.group();
+        
+        this.obstacle1 = new Obstacles(this, 80, -30, 'obstacle1-1',0,1).setOrigin();
+        this.obstacle1.setScale(6,2);
 
-        //[SPAWNER CODE]
-        //randomize between 4 sprites
-        //randomize x position of spawn
-        //randomize x and y scaling of obj
+        this.obstacle2 = new Obstacles(this, 240, -160, 'obstacle1-1',0,1).setOrigin();
+        this.obstacle2.setScale(5,3);
 
-        //[TEST PURPOSES ONLY]
-        this.obstacle = new Obstacles(this, 30, 30, 'obstacle1-1',0,1).setOrigin();
-        this.obstacle.setScale(2,1);
-        this.obstacleColGroup.add(this.obstacle); //add test obstacle to collision group
+        this.obstacle3 = new Obstacles(this, 380, -30, 'obstacle1-1',0,1).setOrigin();
+        this.obstacle3.setScale(7,1);
+
+        this.obstacle4 = new Obstacles(this, 500, -400, 'obstacle1-1',0,1).setOrigin();
+        this.obstacle4.setScale(7,3);
+
+        this.obstacle5 = new Obstacles(this, 60, -400, 'obstacle1-1',0,1).setOrigin();
+        this.obstacle5.setScale(7,3);
+
+        this.obstacleColGroup.add(this.obstacle1); //see if this needs to be moved into the for loop
+        this.obstacleColGroup.add(this.obstacle2);
+        this.obstacleColGroup.add(this.obstacle3);
+        this.obstacleColGroup.add(this.obstacle4); 
+        this.obstacleColGroup.add(this.obstacle5); 
         
         //define obstacle collision behavior (with paddle --> should delete it)
         this.physics.add.collider(this.paddle, this.obstacleColGroup, this.paddle.deleteSelf, null, this.paddle);
         //define obstacle collision behavior (with ball--> should be deleted)
-        this.physics.add.collider(this.ball, this.obstacleColGroup, this.obstacle.deleteSelf, null, this.obstacle); //for some reason, this line just adds collision to the obstacle-- doesn't delete it?? Obstacles.deleteSelf isn't being called, I think.
-        this.physics.add.overlap(ball, obstacle, function () {
-            ball.velocityX *= 2;
-        });
 
+        this.physics.add.collider(this.ball, this.obstacle1, this.obstacle1.deleteSelf, null, this.obstacle1);
+        this.physics.add.collider(this.ball, this.obstacle2, this.obstacle2.deleteSelf, null, this.obstacle2);
+        this.physics.add.collider(this.ball, this.obstacle3, this.obstacle3.deleteSelf, null, this.obstacle3);
+        this.physics.add.collider(this.ball, this.obstacle4, this.obstacle4.deleteSelf, null, this.obstacle4);
+        this.physics.add.collider(this.ball, this.obstacle5, this.obstacle5.deleteSelf, null, this.obstacle5);
 
         // define keys
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -64,23 +76,25 @@ class Play extends Phaser.Scene{
 
     // update things in scene
     update(){
+
         this.ball.update();
         this.paddle.update();
-        this.obstacle.update();
+        this.obstacle1.update();
+        this.obstacle2.update();
+        this.obstacle3.update();
+        this.obstacle4.update();
+        this.obstacle5.update();
+
         this.physics.world.collide(this.ball, this.paddle);
+
         //check that ball is past floor
         if(this.ball.y > game.config.height){
             this.ball.reset(this.paddle);
             this.paddle.reset();
             this.hitPaddle(this.ball,this.paddle);
-            // this.obstacle.reset();
-
         }
-
         // check that obstacle and paddle are touching
-
     }
-    
 
     // Reference from Phaser BreakOut Model
     hitPaddle(ball, paddle) {
@@ -107,5 +121,4 @@ class Play extends Phaser.Scene{
             ball.setVelocityX(2 + Math.random() * 8 + power);
         }
     }
-
 }
