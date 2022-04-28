@@ -38,6 +38,8 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
         this.currAcceX = this.body.acceleration.x;
         console.log("Ball Velocity    : ", this.currVelX); //returns the velocity of the paddle
         console.log("Ball Acceleration   : ", this.currAcceX);
+        //console.log("Ball Velocity    : ", this.currVelX); //returns the velocity of the paddle
+
 
         this.angle++;     
     }
