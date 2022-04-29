@@ -34,8 +34,8 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite{
         }*/
     }
 
-    deleteSelf(){
-        console.log("deleteSelf is called");
+    reset(){
+        //console.log("reset is called");
         //randomize value
         this.x  = Phaser.Math.Between(50, game.config.width);
         this.y =  Phaser.Math.Between(-50, -500);
@@ -43,13 +43,10 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite{
 
     update(){
         if(this.y > game.config.height + 15){
-            this.deleteSelf();
+            this.reset();
         }
-        //If it exists, continue. This is to solve a problem with this.destroy()
-        if(this.body){
-            //All obstacle update code is to be written down here, else destroy() error
-            this.setVelocity(0,110); //constantly moves it down
 
-        }
+        this.setVelocity(0,110); //constantly moves it down
+
     }    
 }

@@ -7,25 +7,24 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.isMoving = true;
-
         this.hitSpeed = 1;
-        this.maxSpeed = 500;
+        this.maxSpeed = 300;
 
-        this.velX = -25;
-        this.velY = -100;
         this.addPhysics();
     }
 
     addPhysics(){
-         // set collider to fit image
+        this.currVelX = this.body.velocity.x;
+        this.currVelY = this.body.velocity.y;
 
+        // set collider to fit image
         this.body.setSize(32,32);
         this.body.setCircle(16);
 
-        // Added physics 
+        // Added physics
+        this.setMaxVelocity(this.maxSpeed);
+        this.setVelocity(0,-this.maxSpeed);
         this.setBounce(1);
-        this.setMaxVelocity(500);
-        this.setVelocity(-10,-200);
         this.setCollideWorldBounds(true);
         this.refreshBody();
     }
@@ -34,14 +33,18 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
 
     update(){
         this.currVelX = this.body.velocity.x; //updates the current velocity
-        console.log("Ball Velocity    : ", this.currVelX); //returns the velocity of the paddle
-        //console.log("Ball Velocity    : ", this.currVelX); //returns the velocity of the paddle
-
+        this.currVelY = this.body.velocity.y; //updates the current velocity
+        //console.log("Ball X : ", this.currVelX,"\nBall Y : ", this.currVelY); //returns the velocity of the paddle
 
         this.angle++;     
+        this.setVelocityY(this.currVelY*2);
+
+
+
     }
 
     reset(paddle){
+        this.setVelocityX(0);
         this.x  = paddle.x;
         this.y =  650;
     }
