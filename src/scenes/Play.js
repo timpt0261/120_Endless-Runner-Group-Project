@@ -16,8 +16,8 @@ class Play extends Phaser.Scene{
 
         // load spritesheet()
         this.load.spritesheet('floppy_disk', './assets/FloppyDisk.png', {
-            frameWidth: 20,
-            frameHeight: 20
+            frameWidth: 100,
+            frameHeight: 100
         });
 
         this.load.spritesheet('br_bepper', './assets/Br.Bepper.png', {
