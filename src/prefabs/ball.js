@@ -11,8 +11,13 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
         this.maxSpeed = 300;
 
         this.addPhysics();
+
     }
 
+    ballParticle(){
+
+
+    }
     addPhysics(){
         this.currVelX = this.body.velocity.x;
         this.currVelY = this.body.velocity.y;
