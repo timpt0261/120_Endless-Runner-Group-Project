@@ -7,6 +7,7 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
         scene.add.existing(this);
         scene.physics.add.existing(this);
         this.paddleSpeed = 1000;
+        this.deleted = false; // not deleted
 
         this.addPhysics();
     }
@@ -63,6 +64,7 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
     deleteSelf(){
         console.log("Paddle is destroyed because YOU messed up BRO");
         this.disableBody(true, true);
+        this.deleted = true; // is deleted
     }
 
 }

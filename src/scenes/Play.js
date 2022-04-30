@@ -139,13 +139,13 @@ class Play extends Phaser.Scene{
         //     follow: scene.this
         // });
 
+        //GameOver Flag
+        
 
         // define keys
-        // keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        //  keyDOWN= this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        //keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
 
         // initialize score:
         let scoreConfig = {
@@ -171,27 +171,36 @@ class Play extends Phaser.Scene{
     update(time){
         // This is literally just to get the music to play once.
         this.counter += 1;
+        
         if (this.counter == 1){
             this.techno.play(this.musicConfig);
         }
 
-        this.points = Math.floor(time/1000);
-        this.score.text = this.points;
+        // gameOver conditions
+        //check that ball is past floor  OR check that paddle is not deleted
+        this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
-        this.ball.update();
-        this.paddle.update();
-        this.obstacle1.update();
-        this.obstacle2.update();
-        this.obstacle3.update();
-        this.obstacle4.update();
-        this.obstacle5.update();
-
-        //check that ball is past floor
-        if(this.ball.y > game.config.height){
-            this.ball.reset(this.paddle);
-            this.paddle.reset();
+        if(this.game_over){
+            this.scene.restart();
+            this.techno.stop();
         }
-        // check that obstacle and paddle are touching
+
+        if(!this.game_over){
+
+            this.points = Math.floor(time/1000);
+            this.score.text = this.points;
+            this.ball.update();
+            this.paddle.update();
+            this.obstacle1.update();
+            this.obstacle2.update();
+            this.obstacle3.update();
+            this.obstacle4.update();
+            this.obstacle5.update();
+
+
+        }
+        
+
     }
 
     // Reference from Phaser BreakOut Model
@@ -227,14 +236,8 @@ class Play extends Phaser.Scene{
         
         obstacle.reset();
     }
-    pause(){
-
+    gameOver(conditions1 , conditions2){
+        return conditions1 == true || conditions2 == true;
     }
-    rest(){
-        
-    }
-    gameOver(){
-
-    }
-
+    
 }
