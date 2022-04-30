@@ -8,13 +8,27 @@ class Play extends Phaser.Scene{
     
     // added assets here
     preload(){
+
         this.load.image('basketball', './assets/basketball.png');
         this.load.image('brick', './assets/brick.png');
         this.load.image('background', './assets/background.jpg');
         this.load.image('obstacle1-1', './assets/obstacle1-1.png');
 
+        // load spritesheet()
+        this.load.spritesheet('floppy_disk', './assets/FloppyDisk.png', {
+            frameWidth: 20,
+            frameHeight: 20
+        });
+
+        this.load.spritesheet('br_bepper', './assets/Br.Bepper.png', {
+            frameWidth: 100,
+            frameHeight: 48,
+        });
+
         this.load.audio('techno', './assets/TestTechno1.mp3');
         //this.load.audio('techno', './assets/TestTechno2.mp3');
+
+
 
     }
 
@@ -33,6 +47,24 @@ class Play extends Phaser.Scene{
             delay: 0
         }
 
+        // Declaring animations
+        // Animation fo Floppy Disk
+        this.anims.create({
+            key: "fd_spin",
+            frames: this.anims.generateFrameNumbers('floppy_disk',{start: 0, end: 7}),
+            frameRate: 10,
+            repeat:-1
+
+        });
+        // Animation for soda can
+        this.anims.create({
+            key: "can_roll",
+            frames: this.anims.generateFrameNumbers('br_bepper', { start: 0, end: -1 }),
+            frameRate: 12,
+            repeat: -1
+
+        });
+
 
         //Add collision to sides, but disable floor
         this.physics.world.setBoundsCollision(true, true, true, false);
@@ -47,11 +79,14 @@ class Play extends Phaser.Scene{
         //initialize collision group for obstacles
         this.obstacleColGroup = this.physics.add.group();
         
-        this.obstacle1 = new Obstacles(this, 80, -30, 'obstacle1-1',0,1).setOrigin();
-        this.obstacle1.setScale(6,2);
+        this.obstacle1 = new Obstacles(this, 80, -30, 'floppy_disk',0,1).setOrigin();
+        // this.obstacle1.setScale(2,2);
+        this.obstacle1.play("fd_spin");
+        
 
-        this.obstacle2 = new Obstacles(this, 240, -160, 'obstacle1-1',0,1).setOrigin();
-        this.obstacle2.setScale(5,3);
+        this.obstacle2 = new Obstacles(this, 240, -160, 'br_bepper',0,1).setOrigin();
+        // this.obstacle2.setScale(5,3);
+        this.obstacle2.play("can_roll");
 
         this.obstacle3 = new Obstacles(this, 380, -30, 'obstacle1-1',0,1).setOrigin();
         this.obstacle3.setScale(7,1);
@@ -77,6 +112,32 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.ball, this.obstacle3, this.bounce, null, this);
         this.physics.add.collider(this.ball, this.obstacle4, this.bounce, null, this);
         this.physics.add.collider(this.ball, this.obstacle5, this.bounce, null, this);
+
+        // // add particle skin here
+        // this.
+
+
+        // //Creating emitter for soda cans
+        // this.movingEmiter = this.particleManager.createEmitter({
+        //     speed: 80,
+        //     quantity : 50, 
+        //     scale: {start: 0.1, end: 1},
+        //     alpha: { start: 1, end: 0},
+        //     lifespan:{min: 10, max: 40}
+        // });
+
+
+        // //Creating emitter fo basketball
+        // this.movingEmiter = this.particleManager.createEmitter({
+        //     speed: 80,
+        //     quantity: 50,
+        //     scale: { start: 0.1, end: 1 },
+        //     alpha: { start: 1, end: 0 },
+        //     radial: true,
+        //     angle: { min: 255, max: 285 },
+        //     lifespan: { min: 10, max: 40 },
+        //     follow: scene.this
+        // });
 
 
         // define keys
@@ -166,4 +227,5 @@ class Play extends Phaser.Scene{
         
         obstacle.reset();
     }
+
 }
