@@ -127,7 +127,7 @@ class Play extends Phaser.Scene{
         // });
 
 
-        // //Creating emitter fo basketball
+        // //Creating emitter for basketball
         // this.movingEmiter = this.particleManager.createEmitter({
         //     speed: 80,
         //     quantity: 50,
@@ -226,6 +226,15 @@ class Play extends Phaser.Scene{
         }
         
         obstacle.reset();
+    }
+    pause(){
+
+    }
+    rest(){
+        
+    }
+    gameOver(){
+
     }
 
 }
