@@ -14,10 +14,6 @@ class Ball extends Phaser.Physics.Arcade.Sprite{
 
     }
 
-    ballParticle(){
-
-
-    }
     addPhysics(){
         this.currVelX = this.body.velocity.x;
         this.currVelY = this.body.velocity.y;
