@@ -122,7 +122,7 @@ class Play extends Phaser.Scene{
 
 
         // //Creating emitter for soda cans
-        // this.movingEmiter = this.particleManager.createEmitter({
+        // this.obstacleEmiter = this.particleManager.createEmitter({
         //     speed: 80,
         //     quantity : 50, 
         //     scale: {start: 0.1, end: 1},
@@ -149,6 +149,8 @@ class Play extends Phaser.Scene{
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+        this.pointer = scene.input.activePointer;
 
 
         // initialize score:
@@ -179,9 +181,10 @@ class Play extends Phaser.Scene{
 
     // update things in scene
     update(time){
-        // This is literally just to get the music to play once.
-        this.counter += 1;
         
+        
+        this.counter += 1;
+        // This is literally just to get the music to play once.
         if (this.counter == 1){
             this.techno.play(this.musicConfig);
         }
@@ -248,6 +251,11 @@ class Play extends Phaser.Scene{
     }
     gameOver(conditions1 , conditions2){
         return conditions1 == true || conditions2 == true;
+    }
+
+    clickPause(pointer, pause){
+        if(this.game_over) return;
+
     }
     
 }
