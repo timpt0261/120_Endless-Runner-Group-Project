@@ -84,12 +84,12 @@ class Play extends Phaser.Scene{
         this.obstacleColGroup = this.physics.add.group();
         
         this.obstacle1 = new Obstacles(this, 80, -30, 'floppy_disk',0,1).setOrigin();
-        // this.obstacle1.setScale(2,2);
+        this.obstacle1.body.setSize(100,100);
         this.obstacle1.play("fd_spin");
         
 
         this.obstacle2 = new Obstacles(this, 240, -160, 'br_bepper',0,1).setOrigin();
-        // this.obstacle2.setScale(5,3);
+        this.obstacle2.body.setSize(100,48);
         this.obstacle2.play("can_roll");
 
         this.obstacle3 = new Obstacles(this, 380, -30, 'obstacle1-1',0,1).setOrigin();
@@ -150,9 +150,6 @@ class Play extends Phaser.Scene{
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        this.pointer = scene.input.activePointer;
-
-
         // initialize score:
         let scoreConfig = {
             fontFamily: 'Comic Sans MS',
@@ -174,7 +171,7 @@ class Play extends Phaser.Scene{
         this.score = this.add.text(game.config.width /2, borderUISize, 0, scoreConfig);
 
         // add pause and menu sprite
-        this.pause = this.physics.add.staticSprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
+        this.pause = this.createPause();
         this.restart = this.physics.add.staticSprite(game.config.width - 40,100, 'restart').setOrigin(.5,.5);
     }
 
@@ -194,6 +191,8 @@ class Play extends Phaser.Scene{
         this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
         if(this.game_over){
+            this.points = -100;
+            this.score.text = this.points;
             this.scene.restart();
             this.techno.stop();
         }
@@ -249,13 +248,15 @@ class Play extends Phaser.Scene{
         
         obstacle.reset();
     }
+
     gameOver(conditions1 , conditions2){
         return conditions1 == true || conditions2 == true;
     }
 
-    clickPause(pointer, pause){
-        if(this.game_over) return;
-
+    createPause(pause){
+        pause = this.physics.add.staticSprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
+        pause.inputEnabled = true;
+        // game.input.activePointer.leftButton.isDown
     }
     
 }
