@@ -13,6 +13,8 @@ class Play extends Phaser.Scene{
         this.load.image('brick', './assets/brick.png');
         this.load.image('background', './assets/background.jpg');
         this.load.image('obstacle1-1', './assets/obstacle1-1.png');
+        this.load.image('pause', './assets/pause.png');
+        this.load.image('restart', './assets/restart.png');
 
         // load spritesheet()
         this.load.spritesheet('floppy_disk', './assets/FloppyDisk.png', {
@@ -71,6 +73,8 @@ class Play extends Phaser.Scene{
 
         // this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
         
+        
+
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'brick',0).setOrigin(0.5,0.5);
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
@@ -162,8 +166,14 @@ class Play extends Phaser.Scene{
             },
             fixedWidth: 0
         }
+
+        // Adding UI
         this.points = 0;
         this.score = this.add.text(game.config.width /2, borderUISize, 0, scoreConfig);
+
+        // add pause and menu sprite
+        this.pause = this.physics.add.staticSprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
+        this.restart = this.physics.add.staticSprite(game.config.width - 40,100, 'restart').setOrigin(.5,.5);
     }
 
 
