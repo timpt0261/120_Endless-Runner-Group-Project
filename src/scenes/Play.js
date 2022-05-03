@@ -66,8 +66,7 @@ class Play extends Phaser.Scene{
         this.anims.create({
             key: "skate_roll",
             frames: this.anims.generateFrameNumbers('skate_board', { start: 0, end: -1 }),
-            frameRate: 8,
-            repeat: -1
+            frameRate: 12,
 
         });
 
@@ -106,7 +105,7 @@ class Play extends Phaser.Scene{
         
 
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'skate_board',0).setOrigin(0.5,0.5);
-        this.paddle.play("skate_roll");
+        
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
@@ -254,7 +253,7 @@ class Play extends Phaser.Scene{
     hitPaddle(ball, paddle) {
         var diff = 0;
         var power = 0;
-        //keySPACE.isDown? power =  Math.random(10, 50): power = 0;
+        this.paddle.play("skate_roll");
 
         if (ball.x < paddle.x)
         {
@@ -272,8 +271,9 @@ class Play extends Phaser.Scene{
         {
             //  Ball is perfectly in the middle
             //  Add a little random X to pause it bouncing straight up!
-            ball.setVelocityX(2 + Math.random() * 8 + power);
+            ball.setVelocityX(2 + Math.random() * 8 + power); 
         }
+        
     }
 
     bounce(ball, obstacle){
