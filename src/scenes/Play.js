@@ -170,8 +170,22 @@ class Play extends Phaser.Scene{
         this.points = 0;
         this.score = this.add.text(game.config.width /2, borderUISize, 0, scoreConfig);
 
+        let p = false;
+        let r =  false;
         // add pause and menu sprite
-        this.pause = this.createPause();
+        this.pause = this.physics.add.staticSprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
+        this.pause.setInteractive().on('pointerdown', function(){
+            if(p == false){
+                console.log("scene is paused");
+                game.scene.pause(this);
+                p = true;
+            }else{
+                console.log("scene is unpaused");
+                game.scene.resume(this);
+                p = false;
+            }          
+        }, this);
+        
         this.restart = this.physics.add.staticSprite(game.config.width - 40,100, 'restart').setOrigin(.5,.5);
     }
 
@@ -254,9 +268,7 @@ class Play extends Phaser.Scene{
     }
 
     createPause(pause){
-        pause = this.physics.add.staticSprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
-        pause.inputEnabled = true;
-        // game.input.activePointer.leftButton.isDown
+        
     }
     
 }
