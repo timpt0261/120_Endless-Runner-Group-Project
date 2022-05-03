@@ -1,8 +1,6 @@
 class Play extends Phaser.Scene{
     constructor(){
         super("playScene");
-        this.counter = 0;
-        this.text = 0;
     }
 
     
@@ -170,9 +168,18 @@ class Play extends Phaser.Scene{
         this.points = 0;
         this.score = this.add.text(game.config.width /2, borderUISize, 0, scoreConfig);
 
-        // add pause and menu sprite
-        this.pause = this.createPause();
-        this.restart = this.physics.add.staticSprite(game.config.width - 40,100, 'restart').setOrigin(.5,.5);
+        // // add pause and menu sprite
+        // this.pause = this.add.sprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
+        // this.pause.setInteractive().on('pointerdown', function(){
+        //   this.isPaused == true? this.is  
+            
+        // }, this);
+
+        
+        
+        // this.restart = this.physics.add.staticSprite(game.config.width - 40,100, 'restart').setOrigin(.5,.5);
+        // this.restart.setInteractive().on('pointerdown', function(){
+        // });
     }
 
 
@@ -186,14 +193,14 @@ class Play extends Phaser.Scene{
             this.techno.play(this.musicConfig);
         }
 
+        
+
         // gameOver conditions
         //check that ball is past floor  OR check that paddle is not deleted
         this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
         if(this.game_over){
-            this.points = -100;
-            this.score.text = this.points;
-            this.scene.restart();
+            this.scene.create();
             this.techno.stop();
         }
 
@@ -254,9 +261,7 @@ class Play extends Phaser.Scene{
     }
 
     createPause(pause){
-        pause = this.physics.add.staticSprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
-        pause.inputEnabled = true;
-        // game.input.activePointer.leftButton.isDown
+        
     }
     
 }
