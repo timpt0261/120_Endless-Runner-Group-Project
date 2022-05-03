@@ -200,7 +200,7 @@ class Play extends Phaser.Scene{
         this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
         if(this.game_over){
-            this.scene.create();
+            this.scene.restart();
             this.techno.stop();
         }
 
@@ -260,8 +260,4 @@ class Play extends Phaser.Scene{
         return conditions1 == true || conditions2 == true;
     }
 
-    createPause(pause){
-        
-    }
-    
 }
