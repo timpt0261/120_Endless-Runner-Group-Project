@@ -14,7 +14,7 @@ class Menu extends Phaser.Scene{
 
     create(){
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
-        this.background.alpha = 0.8;
+        //this.background.alpha = 0.8;
 
         this.add.image(game.config.width/2,100,'logo').setScale(.5);
         this.add.image(game.config.width/2,600,'intro_screen').setScale(.36);
