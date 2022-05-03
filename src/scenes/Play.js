@@ -250,6 +250,4 @@ class Play extends Phaser.Scene{
     gameOver(conditions1 , conditions2){
         return conditions1 == true || conditions2 == true;
     }
-
-    
 }
