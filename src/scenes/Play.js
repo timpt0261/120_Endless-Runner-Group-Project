@@ -7,7 +7,7 @@ class Play extends Phaser.Scene{
     
     // added assets here
     preload(){
-        
+
         this.load.image('background', './assets/full_background.png');
         this.load.image('basketball', './assets/basketball.png');
         this.load.image('brick', './assets/brick.png');
@@ -64,6 +64,7 @@ class Play extends Phaser.Scene{
         this.bounceSFX = this.sound.add("bounce");
 
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
+        this.background.alpha = 0.8;
 
         // Declaring animations
         this.anims.create({
