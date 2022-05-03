@@ -1,6 +1,7 @@
 class Play extends Phaser.Scene{
     constructor(){
         super("playScene");
+        this.isPaused = false;
     }
 
     
@@ -40,7 +41,7 @@ class Play extends Phaser.Scene{
         this.load.audio('techno', './assets/TestTechno1.mp3');
         //this.load.audio('techno', './assets/TestTechno2.mp3');
 
-
+        
 
     }
 
@@ -201,12 +202,11 @@ class Play extends Phaser.Scene{
         this.points = 0;
         this.score = this.add.text(game.config.width /2, borderUISize, 0, scoreConfig);
 
-        // // add pause and menu sprite
-        // this.pause = this.add.sprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
-        // this.pause.setInteractive().on('pointerdown', function(){
-        //   this.isPaused == true? this.is  
-            
-        // }, this);
+        // add pause and menu sprite
+        this.pause = this.add.sprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
+        this.pause.setInteractive().on('pointerdown',()=>{
+            this.isPaused ? this.isPaused = false : this.isPaused = true; 
+        }, this);
 
         
         
@@ -224,13 +224,16 @@ class Play extends Phaser.Scene{
             this.techno.play(this.musicConfig);
         }
 
+        // pauses game
+        this.isPaused ? this.physics.pause(): this.physics.resume();
+
         // gameOver conditions
         //check that ball is past floor  OR check that paddle is not deleted
         this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
         if(this.game_over){
             this.scene.restart();
-            this.techno.stop();
+            this.techno.pause();
         }
 
         if(!this.game_over){
@@ -242,7 +245,9 @@ class Play extends Phaser.Scene{
             this.obstacle3.update();
             this.obstacle4.update();
             this.obstacle5.update();
+
         }
+
     }
 
     // Reference from Phaser BreakOut Model
@@ -266,7 +271,7 @@ class Play extends Phaser.Scene{
         else
         {
             //  Ball is perfectly in the middle
-            //  Add a little random X to stop it bouncing straight up!
+            //  Add a little random X to pause it bouncing straight up!
             ball.setVelocityX(2 + Math.random() * 8 + power);
         }
     }
@@ -284,4 +289,5 @@ class Play extends Phaser.Scene{
     gameOver(conditions1 , conditions2){
         return conditions1 == true || conditions2 == true;
     }
+
 }
