@@ -15,6 +15,11 @@ class Play extends Phaser.Scene{
         this.load.image('restart', './assets/restart.png');
 
         // load spritesheet()
+        this.load.spritesheet('skate_board', './assets/skateboard.png',{
+            frameWidth: 84,
+            frameHeight: 24
+        });
+
         this.load.spritesheet('floppy_disk', './assets/FloppyDisk.png', {
             frameWidth: 100,
             frameHeight: 100
@@ -24,6 +29,13 @@ class Play extends Phaser.Scene{
             frameWidth: 100,
             frameHeight: 48,
         });
+
+        this.load.spritesheet('b_up','./assets/b_up.png',{
+            frameWidth: 100,
+            frameHeight: 55
+        });
+
+        this.load.audio('bounce','./assets/basket_ball_bounce.wav');
 
         this.load.audio('techno', './assets/TestTechno1.mp3');
         //this.load.audio('techno', './assets/TestTechno2.mp3');
@@ -48,6 +60,14 @@ class Play extends Phaser.Scene{
         }
 
         // Declaring animations
+        this.anims.create({
+            key: "skate_roll",
+            frames: this.anims.generateFrameNumbers('skate_board', { start: 0, end: -1 }),
+            frameRate: 8,
+            repeat: -1
+
+        });
+
         // Animation fo Floppy Disk
         this.anims.create({
             key: "fd_spin",
@@ -56,14 +76,23 @@ class Play extends Phaser.Scene{
             repeat:-1
 
         });
-        // Animation for soda can
+        // Animation for br.bepper can
         this.anims.create({
-            key: "can_roll",
+            key: "can_roll_1",
             frames: this.anims.generateFrameNumbers('br_bepper', { start: 0, end: -1 }),
             frameRate: 12,
             repeat: -1
 
         });
+        // Animations for b-up can
+        this.anims.create({
+            key: "can_roll_2",
+            frames: this.anims.generateFrameNumbers('b_up', { start: 0, end: -1 }),
+            frameRate: 12,
+            repeat: -1
+
+        });
+        
 
 
         //Add collision to sides, but disable floor
@@ -73,7 +102,8 @@ class Play extends Phaser.Scene{
         
         
 
-        this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'brick',0).setOrigin(0.5,0.5);
+        this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'skate_board',0).setOrigin(0.5,0.5);
+        this.paddle.play("skate_roll");
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
@@ -88,13 +118,14 @@ class Play extends Phaser.Scene{
 
         this.obstacle2 = new Obstacles(this, 240, -160, 'br_bepper',0,1).setOrigin();
         this.obstacle2.body.setSize(100,48);
-        this.obstacle2.play("can_roll");
+        this.obstacle2.play("can_roll_1");
 
-        this.obstacle3 = new Obstacles(this, 380, -30, 'obstacle1-1',0,1).setOrigin();
-        this.obstacle3.setScale(7,1);
+        this.obstacle3 = new Obstacles(this, 380, -30, 'b_up',0,1).setOrigin();
+        this.obstacle3.body.setSize(100,55);
+        this.obstacle3.play("can_roll_2");
 
         this.obstacle4 = new Obstacles(this, 500, -400, 'obstacle1-1',0,1).setOrigin();
-        this.obstacle4.setScale(7,3);
+        // this.obstacle4.setScale(7,3);
 
         this.obstacle5 = new Obstacles(this, 60, -400, 'obstacle1-1',0,1).setOrigin();
         this.obstacle5.setScale(7,3);
