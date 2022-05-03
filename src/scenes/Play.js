@@ -59,6 +59,8 @@ class Play extends Phaser.Scene{
             delay: 0
         }
 
+        this.bounceSFX = this.sound.add("bounce");
+
         // Declaring animations
         this.anims.create({
             key: "skate_roll",
@@ -275,6 +277,7 @@ class Play extends Phaser.Scene{
         }
         
         obstacle.reset();
+        this.bounceSFX.play(this.musicConfig);
         this.points += 1;
     }
 
