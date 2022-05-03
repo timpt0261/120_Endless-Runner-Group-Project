@@ -184,29 +184,23 @@ class Play extends Phaser.Scene{
 
 
     // update things in scene
-    update(time){
-        
-        
+    update(){
         this.counter += 1;
         // This is literally just to get the music to play once.
         if (this.counter == 1){
             this.techno.play(this.musicConfig);
         }
 
-        
-
         // gameOver conditions
         //check that ball is past floor  OR check that paddle is not deleted
         this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
         if(this.game_over){
-            this.scene.create();
+            this.scene.restart();
             this.techno.stop();
         }
 
         if(!this.game_over){
-
-            this.points = Math.floor(time/1000);
             this.score.text = this.points;
             this.ball.update();
             this.paddle.update();
@@ -215,11 +209,7 @@ class Play extends Phaser.Scene{
             this.obstacle3.update();
             this.obstacle4.update();
             this.obstacle5.update();
-
-
         }
-        
-
     }
 
     // Reference from Phaser BreakOut Model
@@ -254,14 +244,12 @@ class Play extends Phaser.Scene{
         }
         
         obstacle.reset();
+        this.points += 1;
     }
 
     gameOver(conditions1 , conditions2){
         return conditions1 == true || conditions2 == true;
     }
 
-    createPause(pause){
-        
-    }
     
 }
