@@ -52,7 +52,7 @@ class Play extends Phaser.Scene{
         this.anims.create({
             key: "fd_spin",
             frames: this.anims.generateFrameNumbers('floppy_disk',{start: 0, end: 7}),
-            frameRate: 10,
+            frameRate: 30,
             repeat:-1
 
         });
