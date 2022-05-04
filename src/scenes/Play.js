@@ -213,6 +213,9 @@ class Play extends Phaser.Scene{
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+        this.prev = false;
+        this.curr = false;
+
     }
 
 
@@ -233,7 +236,8 @@ class Play extends Phaser.Scene{
         // gameOver conditions
         //check that ball is past floor  OR check that paddle is not deleted
         this.gameIsOver = this.ball.y > game.config.height || this.paddle.deleted;
-
+        this.prev = this.curr;
+        this.curr = this.gameIsOver;
 
         if(this.gameIsOver){
             this.deathSFX.play();
@@ -301,9 +305,11 @@ class Play extends Phaser.Scene{
     }
 
     gameOver(){
+        if(this.prev == false && this.curr == true){
+            this.deathSFX.play();
+        }
         this.physics.pause();
         this.techno.pause();
-        
 
         this.gameOverText.alpha = 1;
         this.finale_score.alpha = 1;
