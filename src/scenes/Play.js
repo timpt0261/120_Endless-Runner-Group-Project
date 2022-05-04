@@ -228,9 +228,10 @@ class Play extends Phaser.Scene{
         this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
         if(this.game_over){
+            this.physics.pause();
+            this.techno.stop();
             this.deathSFX.play();
             this.scene.restart();
-            this.physics.pause();
         }
 
         if(!this.game_over){
