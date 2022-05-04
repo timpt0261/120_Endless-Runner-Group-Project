@@ -48,7 +48,7 @@ class Play extends Phaser.Scene{
         });
 
         this.load.audio('bounce','./assets/bounce.wav');
-        this.load.audio('techno', './assets/TestTechno1.mp3');
+        this.load.audio('elcSynth', './assets/ElectricSynth.mp3');
         this.load.audio('death', './assets/death_sound.wav');
     }
 
@@ -68,7 +68,7 @@ class Play extends Phaser.Scene{
         }
 
         this.counter = 0;
-        this.techno = this.sound.add("techno");
+        this.elcSynth = this.sound.add("elcSynth");
         this.bounceSFX = this.sound.add("bounce");
         this.deathSFX = this.sound.add("death");
 
@@ -237,7 +237,7 @@ class Play extends Phaser.Scene{
         this.counter += 1;
         // This is literally just to get the music to play once.
         if (this.counter == 1){
-            this.techno.play();
+            this.elcSynth.play();
         }
 
         // pauses game
@@ -323,7 +323,7 @@ class Play extends Phaser.Scene{
             this.deathSFX.play();
         }
         this.physics.pause();
-        this.techno.pause();
+        this.elcSynth.pause();
 
         this.gameOverText.alpha = 1;
         this.finale_score.alpha = 1;
