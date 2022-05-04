@@ -14,12 +14,13 @@ class Play extends Phaser.Scene{
         this.load.image('background', './assets/background.jpg');
         this.load.image('obstacle1-1', './assets/obstacle1-1.png');
         this.load.image('pause', './assets/pause.png');
-        this.load.image('restart', './assets/restart.png');
+        this.load.image('boombox', './assets/obstacle1-2.png');
+        // this.load.image('vhs', './assets/obstacle2-1.png');
 
         // load spritesheet()
         this.load.spritesheet('skate_board', './assets/skateboard.png',{
-            frameWidth: 84,
-            frameHeight: 24
+            frameWidth: 80,
+            frameHeight: 26
         });
 
         this.load.spritesheet('floppy_disk', './assets/FloppyDisk.png', {
@@ -35,6 +36,11 @@ class Play extends Phaser.Scene{
         this.load.spritesheet('b_up','./assets/b_up.png',{
             frameWidth: 100,
             frameHeight: 55
+        });
+
+        this.load.spritesheet('vhs', './assets/vhs.png',{
+            frameWidth : 71,
+            frameHeight : 37
         });
 
         this.load.audio('bounce','./assets/basket_ball_bounce.wav');
@@ -70,8 +76,7 @@ class Play extends Phaser.Scene{
         this.anims.create({
             key: "skate_roll",
             frames: this.anims.generateFrameNumbers('skate_board', { start: 0, end: -1 }),
-            frameRate: 8,
-            repeat: -1
+            frameRate: 12,
 
         });
 
@@ -100,6 +105,14 @@ class Play extends Phaser.Scene{
 
         });
         
+        // Animations for vhs tape
+        this.anims.create({
+            key: "vhs_roll",
+            frames: this.anims.generateFrameNumbers('vhs', { start: 0, end: -1 }),
+            frameRate: 6,
+            repeat: -1
+
+        });
 
 
         //Add collision to sides, but disable floor
@@ -110,7 +123,7 @@ class Play extends Phaser.Scene{
         
 
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'skate_board',0).setOrigin(0.5,0.5);
-        this.paddle.play("skate_roll");
+        
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
@@ -119,6 +132,7 @@ class Play extends Phaser.Scene{
         this.obstacleColGroup = this.physics.add.group();
         
         this.obstacle1 = new Obstacles(this, 80, -30, 'floppy_disk',0,1).setOrigin();
+        this.obstacle1.setScale(.5);
         this.obstacle1.body.setSize(100,100);
         this.obstacle1.play("fd_spin");
         
@@ -131,11 +145,15 @@ class Play extends Phaser.Scene{
         this.obstacle3.body.setSize(100,55);
         this.obstacle3.play("can_roll_2");
 
-        this.obstacle4 = new Obstacles(this, 500, -400, 'obstacle1-1',0,1).setOrigin();
+        this.obstacle4 = new Obstacles(this, 500, -400, 'boombox',0,1).setOrigin();
         // this.obstacle4.setScale(7,3);
+        this.obstacle4.setScale(.3);
+        this.obstacle4.body.setSize(396,234);
 
-        this.obstacle5 = new Obstacles(this, 60, -400, 'obstacle1-1',0,1).setOrigin();
-        this.obstacle5.setScale(7,3);
+        this.obstacle5 = new Obstacles(this, 60, -400, 'vhs',0,1).setOrigin();
+        this.obstacle5.setScale(1);
+        this.obstacle5.body.setSize(71,37);
+        this.obstacle5.play("vhs_roll");
 
         this.obstacleColGroup.add(this.obstacle1); //see if this needs to be moved into the for loop
         this.obstacleColGroup.add(this.obstacle2);
@@ -261,7 +279,7 @@ class Play extends Phaser.Scene{
     hitPaddle(ball, paddle) {
         var diff = 0;
         var power = 0;
-        //keySPACE.isDown? power =  Math.random(10, 50): power = 0;
+        this.paddle.play("skate_roll");
 
         if (ball.x < paddle.x)
         {
@@ -279,8 +297,9 @@ class Play extends Phaser.Scene{
         {
             //  Ball is perfectly in the middle
             //  Add a little random X to pause it bouncing straight up!
-            ball.setVelocityX(2 + Math.random() * 8 + power);
+            ball.setVelocityX(2 + Math.random() * 8 + power); 
         }
+        
     }
 
     bounce(ball, obstacle){
