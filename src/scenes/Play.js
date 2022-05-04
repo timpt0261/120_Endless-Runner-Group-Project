@@ -201,11 +201,6 @@ class Play extends Phaser.Scene{
             this.isPaused ? this.isPaused = false : this.isPaused = true; 
         }, this);
 
-        
-        
-        // this.restart = this.physics.add.staticSprite(game.config.width - 40,100, 'restart').setOrigin(.5,.5);
-        // this.restart.setInteractive().on('pointerdown', function(){
-        // });
     }
 
 
