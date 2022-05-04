@@ -44,7 +44,7 @@ class Play extends Phaser.Scene{
         });
 
 
-        //this.load.audio('bounce','./assets/basket_ball_bounce.wav');
+        this.load.audio('death_sound', './assets/death_sound.wav');
         this.load.audio('bounce','./assets/sound.wav');
 
 
@@ -69,7 +69,7 @@ class Play extends Phaser.Scene{
             loop: false,
             delay: 0
         }
-
+        this.deathSFX = this.sound.add('death_sound');
         this.bounceSFX = this.sound.add("bounce");
 
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
@@ -145,14 +145,11 @@ class Play extends Phaser.Scene{
 
 
         //Add collision to sides, but disable floor
-        this.physics.world.setBoundsCollision(true, true, true, false);
-
-        // this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
+        this.physics.world.setBoundsCollision(true, true, true, false);       
         
-        
-
+        // create paddle
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'skate_board',0).setOrigin(0.5,0.5);
-        
+        // create ball
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
@@ -203,6 +200,8 @@ class Play extends Phaser.Scene{
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
 
@@ -225,8 +224,10 @@ class Play extends Phaser.Scene{
         this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
         if(this.game_over){
-            this.scene.restart();
+            this.physics.pause();
+            // this.scene.restart();
             this.techno.pause();
+            this.deathSFX.play();
         }
 
         if(!this.game_over){
