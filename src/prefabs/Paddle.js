@@ -64,7 +64,7 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
 
     deleteSelf(){
         console.log("Paddle is destroyed because YOU messed up BRO");
-        this.disableBody(true, true);
+        //this.disableBody(true, true);  // Commented out so that the player can see where they messed up
         this.deleted = true; // is deleted
     }
 
