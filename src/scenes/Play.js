@@ -224,7 +224,7 @@ class Play extends Phaser.Scene{
         this.counter += 1;
         // This is literally just to get the music to play once.
         if (this.counter == 1){
-            this.techno.play(this.musicConfig);
+            this.techno.play();
         }
 
         // pauses game
@@ -236,6 +236,7 @@ class Play extends Phaser.Scene{
 
 
         if(this.gameIsOver){
+            this.deathSFX.play();
             this.gameOver();
         }
 
@@ -302,7 +303,7 @@ class Play extends Phaser.Scene{
     gameOver(){
         this.physics.pause();
         this.techno.pause();
-        this.deathSFX.play();
+        
 
         this.gameOverText.alpha = 1;
         this.finale_score.alpha = 1;
