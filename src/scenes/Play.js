@@ -171,35 +171,6 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.ball, this.obstacle4, this.bounce, null, this);
         this.physics.add.collider(this.ball, this.obstacle5, this.bounce, null, this);
 
-        // // add particle skin here
-        // this.
-
-
-        // //Creating emitter for soda cans
-        // this.obstacleEmiter = this.particleManager.createEmitter({
-        //     speed: 80,
-        //     quantity : 50, 
-        //     scale: {start: 0.1, end: 1},
-        //     alpha: { start: 1, end: 0},
-        //     lifespan:{min: 10, max: 40}
-        // });
-
-
-        // //Creating emitter for basketball
-        // this.movingEmiter = this.particleManager.createEmitter({
-        //     speed: 80,
-        //     quantity: 50,
-        //     scale: { start: 0.1, end: 1 },
-        //     alpha: { start: 1, end: 0 },
-        //     radial: true,
-        //     angle: { min: 255, max: 285 },
-        //     lifespan: { min: 10, max: 40 },
-        //     follow: scene.this
-        // });
-
-        //GameOver Flag
-        
-
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
