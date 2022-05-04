@@ -8,6 +8,7 @@ class Play extends Phaser.Scene{
     // added assets here
     preload(){
 
+        this.load.image('background', './assets/full_background.png');
         this.load.image('basketball', './assets/basketball.png');
         this.load.image('brick', './assets/brick.png');
         this.load.image('background', './assets/background.jpg');
@@ -62,6 +63,9 @@ class Play extends Phaser.Scene{
 
         this.bounceSFX = this.sound.add("bounce");
 
+        this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
+        //this.background.alpha = 0.8;
+
         // Declaring animations
         this.anims.create({
             key: "skate_roll",
@@ -74,7 +78,7 @@ class Play extends Phaser.Scene{
         this.anims.create({
             key: "fd_spin",
             frames: this.anims.generateFrameNumbers('floppy_disk',{start: 0, end: 7}),
-            frameRate: 10,
+            frameRate: 30,
             repeat:-1
 
         });
@@ -217,6 +221,9 @@ class Play extends Phaser.Scene{
 
     // update things in scene
     update(){
+        this.background.tilePositionX -= 0.5;
+        this.background.tilePositionY -= 0.5;
+
         this.counter += 1;
         // This is literally just to get the music to play once.
         if (this.counter == 1){
