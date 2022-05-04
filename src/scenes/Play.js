@@ -276,7 +276,7 @@ class Play extends Phaser.Scene{
         this.bounceSFX.play(this.musicConfig);
         this.points += 1;
         this.ball.maxSpeed += 5;
-        obstacle.speed += 20;
+        obstacle.speed += 10;
         // this.obstacle1.speed += 5;
         // this.obstacle2.speed += 5;
         // this.obstacle3.speed += 5;
