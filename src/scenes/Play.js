@@ -227,7 +227,7 @@ class Play extends Phaser.Scene{
         this.counter += 1;
         // This is literally just to get the music to play once.
         if (this.counter == 1){
-            this.techno.play(this.musicConfig);
+            this.techno.play();
         }
 
         // pauses game
