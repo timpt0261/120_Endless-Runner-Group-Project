@@ -43,23 +43,15 @@ class Play extends Phaser.Scene{
             frameHeight : 37
         });
 
-
-        this.load.audio('death_sound', './assets/death_sound.wav');
         this.load.audio('bounce','./assets/sound.wav');
-
-
         this.load.audio('techno', './assets/TestTechno1.mp3');
-        //this.load.audio('techno', './assets/TestTechno2.mp3');
-
-        
-
+        this.load.audio('death', './assets/death_sound.wav');
     }
 
     
     // initialize gameObjects , and add assets as textures
     create(){
-        this.counter = 0;
-        this.techno = this.sound.add("techno");
+        //Sounds
         this.musicConfig = {
             mute: false,
             volume: 1,
@@ -68,12 +60,21 @@ class Play extends Phaser.Scene{
             seek: 0,
             loop: false,
             delay: 0
-        }
-        this.deathSFX = this.sound.add('death_sound');
+
+        }        
+        this.counter = 0;
+        this.techno = this.sound.add("techno");
         this.bounceSFX = this.sound.add("bounce");
+        this.deathSFX = this.sound.add("death");
 
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
+        this.scrollSpeed = 0.5;
         //this.background.alpha = 0.8;
+        
+        // define keys
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // Declaring animations
         this.anims.create({
@@ -197,18 +198,20 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.ball, this.obstacle4, this.bounce, null, this);
         this.physics.add.collider(this.ball, this.obstacle5, this.bounce, null, this);
 
+
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
     }
 
 
     // update things in scene
     update(){
-        this.background.tilePositionX -= 0.5;
-        this.background.tilePositionY -= 0.5;
+        this.background.tilePositionX -= this.scrollSpeed;
+        this.background.tilePositionY -= this.scrollSpeed;
 
         this.counter += 1;
         // This is literally just to get the music to play once.
@@ -224,10 +227,9 @@ class Play extends Phaser.Scene{
         this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
 
         if(this.game_over){
-            this.physics.pause();
-            // this.scene.restart();
-            this.techno.pause();
             this.deathSFX.play();
+            this.scene.restart();
+            this.physics.pause();
         }
 
         if(!this.game_over){
@@ -239,9 +241,7 @@ class Play extends Phaser.Scene{
             this.obstacle3.update();
             this.obstacle4.update();
             this.obstacle5.update();            
-
         }
-
     }
 
     // Reference from Phaser BreakOut Model
@@ -249,7 +249,7 @@ class Play extends Phaser.Scene{
         var diff = 0;
         var power = 0;
         this.paddle.play("skate_roll");
-        this.bounceSFX.play(this.musicConfig);
+        this.bounceSFX.play();
 
         if (ball.x < paddle.x)
         {
@@ -280,6 +280,7 @@ class Play extends Phaser.Scene{
         this.bounceSFX.play(this.musicConfig);
         this.points += 1;
         this.ball.maxSpeed += 5;
+        this.scrollSpeed +=0.025;
         obstacle.speed += 10;
         // this.obstacle1.speed += 5;
         // this.obstacle2.speed += 5;
@@ -293,5 +294,4 @@ class Play extends Phaser.Scene{
     gameOver(conditions1 , conditions2){
         return conditions1 == true || conditions2 == true;
     }
-
 }
