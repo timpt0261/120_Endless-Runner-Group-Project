@@ -132,7 +132,6 @@ class Play extends Phaser.Scene{
         // creating particle effects
 
         this.ball_particles = this.add.particles('ball_particle');
-        // this.ball_emitter = this.ball_particles.createEmitter();
 
         this.ball_emitter = this.ball_particles.createEmitter({
             scale: { start: 1, end: .1},
