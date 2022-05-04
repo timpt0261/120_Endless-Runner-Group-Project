@@ -43,6 +43,10 @@ class Play extends Phaser.Scene{
             frameWidth : 71,
             frameHeight : 37
         });
+        this.load.spritesheet('confetti', './assets/confetti.png',{
+            frameWidth: 40,
+            frameHeight: 40
+        });
 
         this.load.audio('bounce','./assets/bounce.wav');
         this.load.audio('techno', './assets/TestTechno1.mp3');
@@ -59,7 +63,7 @@ class Play extends Phaser.Scene{
             rate: 1,
             detune: 0,
             seek: 0,
-            loop: false,
+            loop: true,
             delay: 0
 
         }
@@ -84,16 +88,13 @@ class Play extends Phaser.Scene{
             key: "skate_roll",
             frames: this.anims.generateFrameNumbers('skate_board', { start: 0, end: -1 }),
             frameRate: 12,
-
         });
-
         // Animation fo Floppy Disk
         this.anims.create({
             key: "fd_spin",
             frames: this.anims.generateFrameNumbers('floppy_disk',{start: 0, end: 7}),
             frameRate: 30,
             repeat:-1
-
         });
         // Animation for br.bepper can
         this.anims.create({
@@ -101,7 +102,6 @@ class Play extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers('br_bepper', { start: 0, end: -1 }),
             frameRate: 12,
             repeat: -1
-
         });
         // Animations for b-up can
         this.anims.create({
@@ -109,16 +109,19 @@ class Play extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers('b_up', { start: 0, end: -1 }),
             frameRate: 12,
             repeat: -1
-
         });
-        
         // Animations for vhs tape
         this.anims.create({
             key: "vhs_roll",
             frames: this.anims.generateFrameNumbers('vhs', { start: 0, end: -1 }),
             frameRate: 6,
             repeat: -1
-
+        });
+        // Animation for confetti explosion
+        this.anims.create({
+            key: "confetti_bomb",
+            frames: this.anims.generateFrameNumbers('confetti', { start: 0, end: 6 }),
+            frameRate: 20,
         });
 
         // initialize score:
@@ -128,7 +131,7 @@ class Play extends Phaser.Scene{
             //backgroundColor: '#f6d265', //BAD
             stroke: '#000000',
             strokeThickness: '4',
-            color: '#5FCDE4',
+            color: '#F8DCDC',
             align: 'center',
             padding: {
                 top: 3,
@@ -161,26 +164,26 @@ class Play extends Phaser.Scene{
         //initialize collision group for obstacles
         this.obstacleColGroup = this.physics.add.group();
         
-        this.obstacle1 = new Obstacles(this, 80, -30, 'floppy_disk',0,1).setOrigin();
+        this.obstacle1 = new Obstacles(this, Phaser.Math.Between(30, game.config.width-30), Phaser.Math.Between(-50, -500), 'floppy_disk',0,1).setOrigin();
         this.obstacle1.setScale(.5);
         this.obstacle1.body.setSize(100,100);
         this.obstacle1.play("fd_spin");
         
 
-        this.obstacle2 = new Obstacles(this, 240, -160, 'br_bepper',0,1).setOrigin();
+        this.obstacle2 = new Obstacles(this, Phaser.Math.Between(30, game.config.width-30), Phaser.Math.Between(-50, -500), 'br_bepper',0,1).setOrigin();
         this.obstacle2.body.setSize(100,48);
         this.obstacle2.play("can_roll_1");
 
-        this.obstacle3 = new Obstacles(this, 380, -30, 'b_up',0,1).setOrigin();
+        this.obstacle3 = new Obstacles(this, Phaser.Math.Between(30, game.config.width-30), Phaser.Math.Between(-50, -500), 'b_up',0,1).setOrigin();
         this.obstacle3.body.setSize(100,55);
         this.obstacle3.play("can_roll_2");
 
-        this.obstacle4 = new Obstacles(this, 500, -400, 'boombox',0,1).setOrigin();
+        this.obstacle4 = new Obstacles(this, Phaser.Math.Between(30, game.config.width-30), Phaser.Math.Between(-50, -500), 'boombox',0,1).setOrigin();
         // this.obstacle4.setScale(7,3);
         this.obstacle4.setScale(.3);
         this.obstacle4.body.setSize(396,234);
 
-        this.obstacle5 = new Obstacles(this, 60, -400, 'vhs',0,1).setOrigin();
+        this.obstacle5 = new Obstacles(this, Phaser.Math.Between(30, game.config.width-30), Phaser.Math.Between(-50, -500), 'vhs',0,1).setOrigin();
         this.obstacle5.setScale(1);
         this.obstacle5.body.setSize(71,37);
         this.obstacle5.play("vhs_roll");
@@ -206,7 +209,7 @@ class Play extends Phaser.Scene{
         this.finale_score = this.add.text(game.config.width /2 - borderPadding/2 +20, borderUISize + 80, 0, scoreConfig).setOrigin(0,0);
         this.gameOverText.alpha = 0;
         this.finale_score.alpha = 0;
-
+        
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -215,12 +218,12 @@ class Play extends Phaser.Scene{
 
         this.prev = false;
         this.curr = false;
-
     }
 
 
     // update things in scene
     update(){
+
         this.background.tilePositionX -= this.scrollSpeed;
         this.background.tilePositionY -= this.scrollSpeed;
 
@@ -286,13 +289,18 @@ class Play extends Phaser.Scene{
 
     bounce(ball, obstacle){
         if(obstacle.y > ball.y){
-        ball.setVelocityY(-ball.maxSpeed);
+            ball.setVelocityY(-ball.maxSpeed);
         }
-
-        this.bounceSFX.play(this.musicConfig);
+        let boom = this.add.sprite(obstacle.x, obstacle.y, 'confetti').setOrigin(0.5, 0.5);
+        boom.scale = 3;
+        boom.anims.play('confetti_bomb');             // play explode animation
+        boom.on('animationcomplete', () => {    // callback after anim completes
+            boom.destroy();                       // remove explosion sprite
+        });
+        this.bounceSFX.play();
         this.points += 1;
         this.ball.maxSpeed += 5;
-        this.scrollSpeed +=0.025;
+        this.scrollSpeed +=0.05;
         obstacle.speed += 10;
         // this.obstacle1.speed += 5;
         // this.obstacle2.speed += 5;
@@ -319,7 +327,6 @@ class Play extends Phaser.Scene{
         }else if(keyR.isDown){
             this.scene.restart();
         }
-
         
     }
 }

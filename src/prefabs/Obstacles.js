@@ -29,7 +29,7 @@ class Obstacles extends Phaser.Physics.Arcade.Sprite{
     reset(){
         //console.log("reset is called");
         //randomize value
-        this.x  = Phaser.Math.Between(50, game.config.width-50);
+        this.x  = Phaser.Math.Between(30, game.config.width-30);
         this.y =  Phaser.Math.Between(-50, -500);
     }
 
