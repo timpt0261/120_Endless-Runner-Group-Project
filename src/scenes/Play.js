@@ -43,7 +43,7 @@ class Play extends Phaser.Scene{
             frameHeight : 37
         });
 
-        this.load.audio('bounce','./assets/sound.wav');
+        this.load.audio('bounce','./assets/bounce.wav');
         this.load.audio('techno', './assets/TestTechno1.mp3');
         this.load.audio('death', './assets/death_sound.wav');
     }
