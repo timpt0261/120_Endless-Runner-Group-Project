@@ -16,6 +16,7 @@ class Play extends Phaser.Scene{
         this.load.image('pause', './assets/pause.png');
         this.load.image('boombox', './assets/obstacle1-2.png');
         // this.load.image('vhs', './assets/obstacle2-1.png');
+        this.load.image('gameOverText','./assets/gameOverText.png');
 
         // load spritesheet()
         this.load.spritesheet('skate_board', './assets/skateboard.png',{
@@ -43,9 +44,7 @@ class Play extends Phaser.Scene{
             frameHeight : 37
         });
 
-
-        this.load.audio('death_sound', './assets/death_sound.wav');
-        this.load.audio('bounce','./assets/sound.wav');
+        this.load.audio('bounce','./assets/bounce.wav');
 
 
         this.load.audio('techno', './assets/TestTechno1.mp3');
@@ -69,7 +68,6 @@ class Play extends Phaser.Scene{
             loop: false,
             delay: 0
         }
-        this.deathSFX = this.sound.add('death_sound');
         this.bounceSFX = this.sound.add("bounce");
 
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
@@ -117,7 +115,7 @@ class Play extends Phaser.Scene{
 
         });
 
-                // initialize score:
+        // initialize score:
         let scoreConfig = {
             fontFamily: 'Comic Sans MS',
             fontSize: '40px',
@@ -197,6 +195,11 @@ class Play extends Phaser.Scene{
         this.physics.add.collider(this.ball, this.obstacle4, this.bounce, null, this);
         this.physics.add.collider(this.ball, this.obstacle5, this.bounce, null, this);
 
+        this.gameOverText = this.add.image(game.config.width/2, 150,'gameOverText').setScale(.4);
+        this.finale_score = this.add.text(game.config.width /2 - borderPadding/2 +20, borderUISize + 80, 0, scoreConfig).setOrigin(0,0);
+        this.gameOverText.alpha = 0;
+        this.finale_score.alpha = 0;
+
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
@@ -221,17 +224,15 @@ class Play extends Phaser.Scene{
 
         // gameOver conditions
         //check that ball is past floor  OR check that paddle is not deleted
-        this.game_over = this.gameOver(this.ball.y > game.config.height || this.paddle.deleted);
+        this.gameIsOver = this.ball.y > game.config.height || this.paddle.deleted;
 
-        if(this.game_over){
-            this.physics.pause();
-            // this.scene.restart();
-            this.techno.pause();
-            this.deathSFX.play();
+        if(this.gameIsOver){
+            this.gameOver();
         }
 
-        if(!this.game_over){
+        if(!this.gameIsOver){
             this.score.text = this.points;
+            this.finale_score.text = this.points;
             this.ball.update();
             this.paddle.update();
             this.obstacle1.update();
@@ -290,8 +291,21 @@ class Play extends Phaser.Scene{
         console.log("Ball:  ",this.ball.maxSpeed,"\n1:  ",this.obstacle1.speed,"\n2:  ",this.obstacle2.speed,"\n3:  ",this.obstacle3.speed,"\n4:  ",this.obstacle4.speed,"\n5:  ",this.obstacle5.speed);
     }
 
-    gameOver(conditions1 , conditions2){
-        return conditions1 == true || conditions2 == true;
+    gameOver(){
+        this.physics.pause();
+        this.techno.pause();
+
+        this.gameOverText.alpha = 1;
+        this.finale_score.alpha = 1;
+        
+        if(keySPACE.isDown){
+            this.scene.start('menuScene');
+            
+        }else if(keyR.isDown){
+            this.scene.restart();
+        }
+
+        
     }
 
 }
