@@ -2,14 +2,14 @@ let config = {
     type: Phaser.CANVAS,
     width: 640,
     height: 780,
-    scene: [Play],
+    scene: [Menu,Play],
     title: 'Endless Running in the 90s',
     
     physics:{
         default: 'arcade',
         arcade: {
             gravity: { y : 0 },
-            debug : true
+            debug : false
         }
     }
 }
