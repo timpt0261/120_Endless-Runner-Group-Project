@@ -6,7 +6,7 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
         // add object to existing scene
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.paddleSpeed = 1000;
+        this.paddleSpeed = 2000;
         this.deleted = false; // not deleted
 
         this.addPhysics();

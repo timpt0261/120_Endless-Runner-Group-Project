@@ -15,9 +15,8 @@ class Play extends Phaser.Scene{
         this.load.image('obstacle1-1', './assets/obstacle1-1.png');
         this.load.image('pause', './assets/pause.png');
         this.load.image('boombox', './assets/obstacle1-2.png');
-        // this.load.image('vhs', './assets/obstacle2-1.png');
         this.load.image('gameOverText','./assets/gameOverText.png');
-
+        this.load.image('ball_particle', './assets/particle.png');
         // load spritesheet()
         this.load.spritesheet('skate_board', './assets/skateboard.png',{
             frameWidth: 80,
@@ -63,7 +62,7 @@ class Play extends Phaser.Scene{
             delay: 0
 
         }
-             
+
         this.counter = 0;
         this.techno = this.sound.add("techno");
         this.bounceSFX = this.sound.add("bounce");
@@ -71,13 +70,6 @@ class Play extends Phaser.Scene{
 
         this.background = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'background').setOrigin(0, 0);
         this.scrollSpeed = 0.5;
-        //this.background.alpha = 0.8;
-        
-        // define keys
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // Declaring animations
         this.anims.create({
@@ -137,6 +129,21 @@ class Play extends Phaser.Scene{
             fixedWidth: 0
         }
 
+        // creating particle effects
+
+        this.ball_particles = this.add.particles('ball_particle');
+        // this.ball_emitter = this.ball_particles.createEmitter();
+
+        this.ball_emitter = this.ball_particles.createEmitter({
+            scale: { start: 1, end: .1},
+            speed: 1.5,
+            quantity: 1,
+            blendMode: 'HARD_LIGHT'
+        });
+        // this.ball_emitter.setTint();
+
+
+
         // Adding UI
         this.points = 0;
         this.score = this.add.text(game.config.width /2 - borderPadding/2, borderUISize, 0, scoreConfig).setOrigin(0,0);
@@ -155,6 +162,7 @@ class Play extends Phaser.Scene{
         this.paddle = new Paddle(this, game.config.width / 2, game.config.height - borderUISize,'skate_board',0).setOrigin(0.5,0.5);
         // create ball
         this.ball = new Ball(this,  this.paddle.x , 650,'basketball',0).setOrigin(0.5,0.5);  //Origin default is (0.5,0.5)
+        this.ball_emitter.startFollow(this.ball);
         this.physics.add.collider(this.ball, this.paddle, this.hitPaddle, null, this);
 
 
