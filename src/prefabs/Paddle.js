@@ -15,8 +15,9 @@ class Paddle extends Phaser.Physics.Arcade.Sprite{
     addPhysics(){
         this.currVelX = this.body.velocity.x;
         this.currAccelX = this.body.acceleration.x;
-        this.setImmovable();
-        this.setMaxVelocity(500);
+        this.setImmovable(true);
+        this.body.setSize(75,10);
+        this.setMaxVelocity(700);
         this.setCollideWorldBounds(true);
         this.refreshBody();
     }

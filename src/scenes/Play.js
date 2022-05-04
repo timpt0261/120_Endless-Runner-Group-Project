@@ -43,7 +43,10 @@ class Play extends Phaser.Scene{
             frameHeight : 37
         });
 
-        this.load.audio('bounce','./assets/bounce.wav');
+
+        //this.load.audio('bounce','./assets/basket_ball_bounce.wav');
+        this.load.audio('bounce','./assets/sound.wav');
+
 
         this.load.audio('techno', './assets/TestTechno1.mp3');
         //this.load.audio('techno', './assets/TestTechno2.mp3');
@@ -114,6 +117,32 @@ class Play extends Phaser.Scene{
 
         });
 
+                // initialize score:
+        let scoreConfig = {
+            fontFamily: 'Comic Sans MS',
+            fontSize: '40px',
+            //backgroundColor: '#f6d265', //BAD
+            stroke: '#000000',
+            strokeThickness: '4',
+            color: '#5FCDE4',
+            align: 'center',
+            padding: {
+                top: 3,
+                bottom: 3,
+            },
+            fixedWidth: 0
+        }
+
+        // Adding UI
+        this.points = 0;
+        this.score = this.add.text(game.config.width /2 - borderPadding/2, borderUISize, 0, scoreConfig).setOrigin(0,0);
+        this.score.alpha = 1;
+        // add pause and menu sprite
+        this.pause = this.add.sprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
+        this.pause.setInteractive().on('pointerdown',()=>{
+            this.isPaused ? this.isPaused = false : this.isPaused = true; 
+        }, this);
+
 
         //Add collision to sides, but disable floor
         this.physics.world.setBoundsCollision(true, true, true, false);
@@ -174,33 +203,6 @@ class Play extends Phaser.Scene{
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-
-        // initialize score:
-        let scoreConfig = {
-            fontFamily: 'Comic Sans MS',
-            fontSize: '33px',
-            //backgroundColor: '#f6d265',
-            stroke: '#000000',
-            strokeThickness: '2',
-            color: '#132A8F',
-            align: 'center',
-            padding: {
-                top: 3,
-                bottom: 3,
-            },
-            fixedWidth: 0
-        }
-
-        // Adding UI
-        this.points = 0;
-        this.score = this.add.text(game.config.width /2, borderUISize, 0, scoreConfig);
-
-        // add pause and menu sprite
-        this.pause = this.add.sprite(game.config.width - 40,60, 'pause').setOrigin(.5,.5);
-        this.pause.setInteractive().on('pointerdown',()=>{
-            this.isPaused ? this.isPaused = false : this.isPaused = true; 
-        }, this);
-
     }
 
 
@@ -235,7 +237,7 @@ class Play extends Phaser.Scene{
             this.obstacle2.update();
             this.obstacle3.update();
             this.obstacle4.update();
-            this.obstacle5.update();
+            this.obstacle5.update();            
 
         }
 
@@ -273,10 +275,18 @@ class Play extends Phaser.Scene{
         if(obstacle.y > ball.y){
         ball.setVelocityY(-ball.maxSpeed);
         }
-        
-        obstacle.reset();
+
         this.bounceSFX.play(this.musicConfig);
         this.points += 1;
+        this.ball.maxSpeed += 5;
+        obstacle.speed += 10;
+        // this.obstacle1.speed += 5;
+        // this.obstacle2.speed += 5;
+        // this.obstacle3.speed += 5;
+        // this.obstacle4.speed += 5;
+        // this.obstacle5.speed += 5;
+        obstacle.reset();        
+        console.log("Ball:  ",this.ball.maxSpeed,"\n1:  ",this.obstacle1.speed,"\n2:  ",this.obstacle2.speed,"\n3:  ",this.obstacle3.speed,"\n4:  ",this.obstacle4.speed,"\n5:  ",this.obstacle5.speed);
     }
 
     gameOver(conditions1 , conditions2){
