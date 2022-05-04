@@ -240,7 +240,6 @@ class Play extends Phaser.Scene{
         this.curr = this.gameIsOver;
 
         if(this.gameIsOver){
-            this.deathSFX.play();
             this.gameOver();
         }
 
