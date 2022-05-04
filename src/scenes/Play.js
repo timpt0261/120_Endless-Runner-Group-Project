@@ -15,6 +15,7 @@ class Play extends Phaser.Scene{
         this.load.image('obstacle1-1', './assets/obstacle1-1.png');
         this.load.image('pause', './assets/pause.png');
         this.load.image('boombox', './assets/obstacle1-2.png');
+        // this.load.image('vhs', './assets/obstacle2-1.png');
 
         // load spritesheet()
         this.load.spritesheet('skate_board', './assets/skateboard.png',{
@@ -35,6 +36,11 @@ class Play extends Phaser.Scene{
         this.load.spritesheet('b_up','./assets/b_up.png',{
             frameWidth: 100,
             frameHeight: 55
+        });
+
+        this.load.spritesheet('vhs', './assets/vhs.png',{
+            frameWidth : 71,
+            frameHeight : 37
         });
 
         this.load.audio('bounce','./assets/basket_ball_bounce.wav');
@@ -99,6 +105,14 @@ class Play extends Phaser.Scene{
 
         });
         
+        // Animations for vhs tape
+        this.anims.create({
+            key: "vhs_roll",
+            frames: this.anims.generateFrameNumbers('vhs', { start: 0, end: -1 }),
+            frameRate: 6,
+            repeat: -1
+
+        });
 
 
         //Add collision to sides, but disable floor
@@ -118,6 +132,7 @@ class Play extends Phaser.Scene{
         this.obstacleColGroup = this.physics.add.group();
         
         this.obstacle1 = new Obstacles(this, 80, -30, 'floppy_disk',0,1).setOrigin();
+        this.obstacle1.setScale(.5);
         this.obstacle1.body.setSize(100,100);
         this.obstacle1.play("fd_spin");
         
@@ -135,8 +150,10 @@ class Play extends Phaser.Scene{
         this.obstacle4.setScale(.3);
         this.obstacle4.body.setSize(396,234);
 
-        this.obstacle5 = new Obstacles(this, 60, -400, 'obstacle1-1',0,1).setOrigin();
-        this.obstacle5.setScale(7,3);
+        this.obstacle5 = new Obstacles(this, 60, -400, 'vhs',0,1).setOrigin();
+        this.obstacle5.setScale(1);
+        this.obstacle5.body.setSize(71,37);
+        this.obstacle5.play("vhs_roll");
 
         this.obstacleColGroup.add(this.obstacle1); //see if this needs to be moved into the for loop
         this.obstacleColGroup.add(this.obstacle2);
