@@ -43,7 +43,7 @@ class Play extends Phaser.Scene{
             frameHeight : 37
         });
 
-        this.load.audio('bounce','./assets/basket_ball_bounce.wav');
+        this.load.audio('bounce','./assets/bounce.wav');
 
         this.load.audio('techno', './assets/TestTechno1.mp3');
         //this.load.audio('techno', './assets/TestTechno2.mp3');
@@ -246,6 +246,7 @@ class Play extends Phaser.Scene{
         var diff = 0;
         var power = 0;
         this.paddle.play("skate_roll");
+        this.bounceSFX.play(this.musicConfig);
 
         if (ball.x < paddle.x)
         {
