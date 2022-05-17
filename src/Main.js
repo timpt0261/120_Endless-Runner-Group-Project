@@ -23,6 +23,12 @@ let borderPadding = borderUISize / 3;
 // reserve keyboard vars
 let keySPACE, keyR, keyLEFT, keyRIGHT;
 
+// Reuben Chavez, Andrew Mangal, Eduardo Alcaraz
+
+// Title : Endless Runningin the 90s
+
+// Game Completed on 5/17/22
+
 // Creative Tilt
 
 // Something interesting about our game is that when the ball hits the paddle a function determines weather
